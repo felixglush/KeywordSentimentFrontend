@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import {FormGroup, FormControl, InputGroup, Glyphicon} from 'react-bootstrap'
+import Controls from './Controls.jsx'
+import './App.css'
 
 class SearchInput extends Component {
     constructor(props) {
@@ -29,21 +31,42 @@ class SearchInput extends Component {
       this.props.onSearch(result)
     }
 
+    handleChangedControls = (change) => {
+      console.log('SearchInput, change :', change)
+    }
+
     render() {
       return (
-        <FormGroup className="search-component">
-          <InputGroup>
-            <FormControl
-              type="text"
-              placeholder="Search keywords..."
-              query={this.state.query}
-              onChange={event => {this.setState({query: event.target.value})}}
-            />
-            <InputGroup.Addon onClick={() => this.search()}>
-              <Glyphicon glyph="search"></Glyphicon>
-            </InputGroup.Addon>
-          </InputGroup>
-        </FormGroup>
+        <div>
+          <div className="row">
+
+            <div className="col-md-8">
+
+                <FormGroup className="search-component">
+                  <InputGroup>
+                    <FormControl
+                      type="text"
+                      placeholder="Search keywords..."
+                      query={this.state.query}
+                      onChange={event => {this.setState({query: event.target.value})}}
+                    />
+                    <InputGroup.Addon onClick={() => this.search()}>
+                      <Glyphicon glyph="search"></Glyphicon>
+                    </InputGroup.Addon>
+                  </InputGroup>
+                </FormGroup>
+
+
+            </div>
+
+            <div className="col-md-4">
+              <Controls onControlChange={this.handleChangedControls}/>
+            </div>
+
+          </div>
+        </div>
+
+
       )
     }
 }
