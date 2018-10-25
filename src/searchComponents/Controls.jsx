@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { FormGroup, FormControl, InputGroup, Checkbox, Glyphicon,
-  ListGroup, ListGroupItem } from 'react-bootstrap'
+import { FormGroup, FormControl, InputGroup, Checkbox, Glyphicon } from 'react-bootstrap'
 
 const SubredditInput = (props) => (
     <FormGroup>
@@ -10,7 +9,7 @@ const SubredditInput = (props) => (
           placeholder="Add subreddit to search..."
           onChange={event => {props.onChange(event.target.value)}}
         ></FormControl>
-        <InputGroup.Addon onClick={() => props.onAddToSearch()}>
+        <InputGroup.Addon onClick={() => props.onAddToSearch(props.subredditQuery, "subreddit")}>
           <Glyphicon glyph="plus"></Glyphicon>
         </InputGroup.Addon>
       </InputGroup>
@@ -29,53 +28,48 @@ class Controls extends Component {
     this.handleToggledReddit = this.handleToggledReddit.bind(this)
     this.handleToggledTwitter = this.handleToggledTwitter.bind(this)
     this.onSubredditInputChange = this.onSubredditInputChange.bind(this)
-    this.onSubredditAdded = this.onSubredditAdded.bind(this)
   }
 
   componentDidUpdate() {
-    this.props.onControlChange(this.state)
+    console.log("controls changed")
+    //this.props.onControlChange(this.state)
   }
 
   handleToggledReddit() {
-    this.setState({redditChecked: !this.state.redditChecked, subredditsToSearch: []})
+    this.setState({redditChecked: !this.state.redditChecked, subredditsToSearch: []},
+      function updatedState() {
+        this.props.onControlChange(this.state)
+      }
+    )
   }
 
   handleToggledTwitter() {
-    this.setState({twitterChecked: !this.state.twitterChecked})
+    this.setState({twitterChecked: !this.state.twitterChecked},
+      function updatedState() {
+        this.props.onControlChange(this.state)
+      }
+    )
   }
 
   onSubredditInputChange(value) {
-    this.setState({subredditQuery: value})
+    this.setState({subredditQuery: value},
+      function updatedState() {
+        this.props.onControlChange(this.state)
+    })
   }
 
-  onSubredditAdded() {
-    const listOfSubreddits = this.state.subredditsToSearch
-    const queryToAdd = this.state.subredditQuery
-    let add = true
-    for (var i = 0; i < listOfSubreddits.length; i++) {
-      if (listOfSubreddits[i] === queryToAdd) {
-        add = false
-        break
-      }
-    }
+  isEmpty(string) {
+      return (string.length === 0 || !string.trim());
+  };
 
-    if (add) {
-      listOfSubreddits.push(queryToAdd)
-      this.setState({subredditsToSearch: listOfSubreddits})
-    }
-  }
 
   render() {
     const subredditInput = this.state.redditChecked === false
                                 ? null
                                 : <SubredditInput
                                     onChange={this.onSubredditInputChange}
-                                    onAddToSearch={this.onSubredditAdded}
-                                  />
-
-    const listOfSubredditButtons = this.state.subredditsToSearch.map((subreddit) =>
-        <ListGroupItem key={subreddit}>{subreddit}</ListGroupItem>
-    )
+                                    subredditQuery={this.state.subredditQuery}
+                                    onAddToSearch={this.props.handleAddSubredditToSearch}/>
 
     return (
       <FormGroup>
@@ -94,7 +88,6 @@ class Controls extends Component {
             </Checkbox>
           </div>
           {subredditInput}
-          <ListGroup>{listOfSubredditButtons}</ListGroup>
         </div>
       </FormGroup>
     )

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import SearchInput from './SearchInput.jsx'
+import SearchForm from './searchComponents/SearchForm.jsx'
 import SentimentInfo from './SentimentInfo.jsx'
 import './App.css'
 
@@ -24,7 +24,7 @@ class App extends Component {
 
     return (
       <div className="App">
-        <SearchInput onSearch={this.handleReturnedResult}/>
+        <SearchForm onSearch={this.handleReturnedResult}/>
         {sentimentInfo}
       </div>
     )

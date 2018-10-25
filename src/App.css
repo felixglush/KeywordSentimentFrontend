@@ -1,14 +1,17 @@
 .App {
   text-align: center;
   padding: 5%;
+
 }
 
 .search-component {
-  padding-left: 0%;
+  padding-left: 20%;
+
 }
 
 .controls-component {
-  padding-left: 40%;
+  padding-left: 20%;
+  padding-right: 20%;
 }
 
 .info-title, .info-section {
