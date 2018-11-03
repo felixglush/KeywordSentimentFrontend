@@ -8,14 +8,14 @@ Keyword [keyword list component]
 class Keyword extends Component {
   render() {
     const posts = this.props.data.posts
-    const scores = this.props.data.scores
-    const magnitudes = this.props.data.magnitudes
+    const sentiments = this.props.data.sentiment
+    const sentimentScores = this.props.data.sentimentScores
 
     const postItems = posts.map((post, index) =>
       <PostItem
         post={posts[index]}
-        score={scores[index]}
-        magnitude={magnitudes[index]}
+        sentiment={sentiments[index]}
+        sentimentScore={sentimentScores[index]}
       />
     )
     return (

@@ -20,23 +20,61 @@ class SearchForm extends Component {
   }
 
   search() {
-    const result = {
-      keywords: ["apple", "tim hortons"],
-      sources: ["reddit"],
-      subreddits: ["r/BizNews"],
-      "apple": {
-        posts: ["apple is great", "apple is awesome"],
-        scores: [1.0, 0.5],
-        magnitudes: [-0.5, 0.75],
-      },
-      "tim hortons": {
-        posts: ["tim's is the best!!"],
-        scores: [1.0],
-        magnitudes: [1.0],
+    const resultJSON = {
+      "sources": [ "reddit" ],
+      "keywords": [ "keyword1", "keyword2" ],
+      "reddit": {
+        "subreddits": ["subreddit1"],
+        "subreddit1": {
+          "hot": {
+            "keyword1": {
+              "urls": ["wwww.reddit.com", "www.reddit.com"],
+              "ids": [1, 2],
+              "upvotes": [1, 2],
+              "creation_dates": [123, 312],
+              "title": {
+                "text": [ "text1", "text2" ],
+                "Sentiment": [ "NEUTRAL", "POSITIVE" ],
+                "SentimentScore": [
+                  {
+                    "Mixed": 0.0145,
+                    "Positive": 0.315,
+                    "Neutral": 0.598,
+                    "Negative": 0.070
+                  },
+                  { "Mixed": 0.0145, "Positive": 0.315, "Neutral": 0.598, "Negative": 0.070 }
+                ]
+              },
+              "body": {
+                "text": ["body1", "body2"],
+                "Sentiment": ["NEUTRAL", "POSITIVE"],
+                "SentimentScore": [ { "Mixed": 0.0145, "Positive": 0.315, "Neutral": 0.598, "Negative": 0.070 },
+                 { "Mixed": 0.0145, "Positive": 0.315, "Neutral": 0.598, "Negative": 0.070 }]
+              }
+            },
+            "keyword2": {
+              "urls": ["wwww.reddit.com", "www.reddit.com"],
+              "ids": [3, 4],
+              "upvotes": [6, 2],
+              "creation_dates": [123, 312],
+              "title": {
+                "text": [ "text1", "text2" ],
+                "Sentiment": [ "NEUTRAL", "POSITIVE" ],
+                "SentimentScore": [ { "Mixed": 0.0145, "Positive": 0.315, "Neutral": 0.598, "Negative": 0.070 },
+                 { "Mixed": 0.0145, "Positive": 0.315, "Neutral": 0.598, "Negative": 0.070 }]
+              },
+              "body": {
+                "text": ["body1", "body2"],
+                "Sentiment": ["NEUTRAL", "POSITIVE"],
+                "SentimentScore": [ { "Mixed": 0.0145, "Positive": 0.315, "Neutral": 0.598, "Negative": 0.070 },
+                 { "Mixed": 0.0145, "Positive": 0.315, "Neutral": 0.598, "Negative": 0.070 }]
+              }
+            }
+          }
+        }
       }
     }
-
-    this.props.onSearch(result)
+    this.props.onSearch(resultJSON)
   }
 
   isEmpty(string) {
@@ -94,6 +132,7 @@ class SearchForm extends Component {
             <SearchInput handleAddKeywordToSearch={this.handleAddStringToSearch}/>
             <EditableListOfT items={this.state.keywords}/>
           </div>
+
 
           <div className="col-md-5">
             <Controls
