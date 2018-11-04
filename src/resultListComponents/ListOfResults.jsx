@@ -18,17 +18,15 @@ ListOfResults [overall component]
 
 class ListOfResults extends Component {
   render() {
-    const sources = this.props.result.sources
-    const sourcesList = sources.map((source) =>
+    const sourceList = this.props.result.sources.map((source) =>
       <ListGroupItem key={source}>
-        <Source source={source} result={this.props.result}/>
+        <Source
+          source={source}
+          result={this.props.result}/>
       </ListGroupItem>
     )
-
     return (
-      <div>
-        <ListGroup>{sourcesList}</ListGroup>
-      </div>
+      <ListGroup>{sourceList}</ListGroup>
     )
   }
 }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Reddit from './Reddit.jsx'
-class Source extends Component {
 
+class Source extends Component {
   render() {
     const source = this.props.source
     const result = this.props.result

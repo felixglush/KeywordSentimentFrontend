@@ -7,24 +7,23 @@ Keyword [keyword list component]
 
 class Keyword extends Component {
   render() {
-    const posts = this.props.data.posts
-    const sentiments = this.props.data.sentiment
-    const sentimentScores = this.props.data.sentimentScores
+    // const posts = this.props.data.posts
+    // const sentiments = this.props.data.sentiment
+    // const sentimentScores = this.props.data.sentimentScores
+    //
+    // const postItems = posts.map((post, index) =>
+    //   <PostItem
+    //     post={posts[index]}
+    //     sentiment={sentiments[index]}
+    //     sentimentScore={sentimentScores[index]}
+    //   />
+    // )
 
-    const postItems = posts.map((post, index) =>
-      <PostItem
-        post={posts[index]}
-        sentiment={sentiments[index]}
-        sentimentScore={sentimentScores[index]}
-      />
-    )
+
     return (
       <div>
         <div>
-          <p>Keyword: {this.props.keyword}</p>
-        <div>
-        </div>
-          <ul>{postItems}</ul>
+          <p>Keyword: </p>
         </div>
       </div>
 

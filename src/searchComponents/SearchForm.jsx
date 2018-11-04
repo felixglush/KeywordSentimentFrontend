@@ -37,10 +37,8 @@ class SearchForm extends Component {
                 "Sentiment": [ "NEUTRAL", "POSITIVE" ],
                 "SentimentScore": [
                   {
-                    "Mixed": 0.0145,
-                    "Positive": 0.315,
-                    "Neutral": 0.598,
-                    "Negative": 0.070
+                    "Mixed": 0.0145, "Positive": 0.315,
+                    "Neutral": 0.598, "Negative": 0.070
                   },
                   { "Mixed": 0.0145, "Positive": 0.315, "Neutral": 0.598, "Negative": 0.070 }
                 ]
@@ -70,7 +68,8 @@ class SearchForm extends Component {
                  { "Mixed": 0.0145, "Positive": 0.315, "Neutral": 0.598, "Negative": 0.070 }]
               }
             }
-          }
+          },
+          "new": {}
         }
       }
     }
