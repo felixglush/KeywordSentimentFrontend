@@ -6,27 +6,35 @@ Keyword [keyword list component]
 */
 
 class Keyword extends Component {
-
-
   render() {
-    const filterKey = this.props.data.filterKey
-    const keyword = this.props.data.keyword
     const postData = this.props.data.postData
 
-    const numberOfPostsFound = postData.urls.length
-    console.log("length", numberOfPostsFound)
+    const numberOfPostsFound = postData.ids.length
+    const indexValueToMap = Array.from(Array(numberOfPostsFound).keys())
 
-    const titles = postData.title.text.map((title) =>
-      <PostItem key={title} title={title}/>
+    const posts = indexValueToMap.map((index) =>
+      <PostItem
+        filterKey={this.props.data.filterKey}
+        key={postData.ids[index]}
+        url={postData.urls[index]}
+        upvotes={postData.upvotes[index]}
+        creation_date={postData.creation_dates[index]}
+        title={postData.title.text[index]}
+        titleSentiment={postData.title.Sentiment[index]}
+        titleSentimentScore={postData.title.SentimentScore[index]}
+        body={postData.body.text[index]}
+        bodySentiment={postData.body.Sentiment[index]}
+        bodySentimentScore={postData.body.SentimentScore[index]}
+      />
     )
 
     return (
       <div>
         <div>
-          {keyword}
+          {this.props.data.keyword}
         </div>
         <div>
-          {titles}
+          {posts}
         </div>
       </div>
     )

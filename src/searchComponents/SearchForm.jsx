@@ -3,6 +3,7 @@ import { Button } from 'react-bootstrap'
 import SearchInput from './SearchInput.jsx'
 import Controls from './Controls.jsx'
 import EditableListOfT from './EditableListOfT.jsx'
+import { callLambda } from '../aws.js'
 
 class SearchForm extends Component {
   constructor(props) {
@@ -73,6 +74,14 @@ class SearchForm extends Component {
         }
       }
     }
+
+    const payLoadObject = {
+      "keywords_list": ["The"],
+      "subreddits_list": ["uwaterloo"],
+      "sources": ["reddit"]
+    }
+    callLambda(JSON.stringify(payLoadObject))
+
     this.props.onSearch(resultJSON)
   }
 
