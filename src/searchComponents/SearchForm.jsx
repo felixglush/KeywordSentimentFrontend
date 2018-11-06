@@ -33,7 +33,7 @@ class SearchForm extends Component {
               "upvotes": [1, 2],
               "creation_dates": [123, 312],
               "title": {
-                "text": [ "text1", "text2" ],
+                "text": [ "title1, key1", "title1, key1" ],
                 "Sentiment": [ "NEUTRAL", "POSITIVE" ],
                 "SentimentScore": [
                   {
@@ -56,7 +56,7 @@ class SearchForm extends Component {
               "upvotes": [6, 2],
               "creation_dates": [123, 312],
               "title": {
-                "text": [ "text1", "text2" ],
+                "text": [ "title1, key2", "title2, key2" ],
                 "Sentiment": [ "NEUTRAL", "POSITIVE" ],
                 "SentimentScore": [ { "Mixed": 0.0145, "Positive": 0.315, "Neutral": 0.598, "Negative": 0.070 },
                  { "Mixed": 0.0145, "Positive": 0.315, "Neutral": 0.598, "Negative": 0.070 }]
