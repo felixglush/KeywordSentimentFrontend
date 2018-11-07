@@ -10,13 +10,14 @@ export const initAWS = () => {
   // Initialize the Amazon Cognito credentials provider
   AWS.config.region = region // Region
   AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: 'us-east-1:cf36a002-3f60-4b38-917d-196a9cfc7ba3'
+    IdentityPoolId: 'us-east-1:aabd3fb2-81d4-442e-b6e8-e90527137a1c'
   })
 
   lambda = new AWS.Lambda({region: region, apiVersion: '2015-03-31'})
 }
 
 export const callLambda = (payload) => {
+  console.log('callLambda payload', payload)
   initLambdaRequest(payload)
   invokeLambda()
 }
@@ -24,7 +25,7 @@ export const callLambda = (payload) => {
 const initLambdaRequest = (payload) => {
   // create JSON object for parameters for invoking Lambda function
   pullParams = {
-    FunctionName: 'hello',
+    FunctionName: 'serverless-keywordtracker-dev-hello',
     InvocationType: 'RequestResponse',
     LogType: 'None',
     Payload: payload
