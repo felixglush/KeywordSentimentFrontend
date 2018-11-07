@@ -18,6 +18,7 @@ ListOfResults [overall component]
 
 class ListOfResults extends Component {
   render() {
+    console.log("ListOfResults sources", this.props.result.sources)
     const sourceList = this.props.result.sources.map((source) =>
       <ListGroupItem key={source}>
         <Source

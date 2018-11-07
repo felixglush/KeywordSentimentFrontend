@@ -16,10 +16,11 @@ export const initAWS = () => {
   lambda = new AWS.Lambda({region: region, apiVersion: '2015-03-31'})
 }
 
-export const callLambda = (payload) => {
+// Async call to AWS Lambda function
+export const callLambda = (payload, callback) => {
   console.log('callLambda payload', payload)
   initLambdaRequest(payload)
-  invokeLambda()
+  invokeLambda(callback)
 }
 
 const initLambdaRequest = (payload) => {
@@ -32,13 +33,15 @@ const initLambdaRequest = (payload) => {
   }
 }
 
-const invokeLambda = () => {
+const invokeLambda = (callback) => {
   lambda.invoke(pullParams, function (error, data) {
     if (error) {
       console.log('Error!', error)
     } else {
       pullResults = JSON.parse(data.Payload)
       console.log('Pull results', pullResults)
+      callback(pullResults)
+      return pullResults
     }
   })
 }

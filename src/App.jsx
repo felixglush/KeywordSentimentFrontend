@@ -12,7 +12,7 @@ class App extends Component {
   }
 
   handleReturnedResult = (result) => {
-    console.log('App, returned result:', result)
+    console.log('App, returned result:', result )
     this.setState({result})
   }
 
