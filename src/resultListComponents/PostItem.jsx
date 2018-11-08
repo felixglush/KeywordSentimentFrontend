@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { ListGroupItem } from 'react-bootstrap'
 import PostItemModal from './PostItemModal.jsx'
@@ -48,6 +49,15 @@ class PostItem extends Component {
     )
 
   }
+}
+
+PostItem.propTypes = {
+  title: PropTypes.string.isRequired,
+  titleSentiment: PropTypes.string.isRequired,
+  titleSentimentScore: PropTypes.object.isRequired,
+  body: PropTypes.string,
+  bodySentiment: PropTypes.string,
+  bodySentimentScore: PropTypes.object
 }
 
 export default PostItem

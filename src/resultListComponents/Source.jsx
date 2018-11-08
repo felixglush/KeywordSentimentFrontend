@@ -1,5 +1,7 @@
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import Reddit from './Reddit.jsx'
+import Twitter from './Twitter.jsx'
 
 class Source extends Component {
   render() {
@@ -9,8 +11,10 @@ class Source extends Component {
     let component
     if (source === "reddit") {
       data = result[source]
-      console.log("data", data)
       component = <Reddit data={data}/>
+    } else if (source === "twitter") {
+      data = result[source]
+      component = <Twitter data={data}/>
     }
 
     return (
@@ -19,6 +23,11 @@ class Source extends Component {
       </div>
     )
   }
+}
+
+Source.propTypes = {
+  result: PropTypes.object.isRequired,
+  source: PropTypes.string.isRequired
 }
 
 export default Source

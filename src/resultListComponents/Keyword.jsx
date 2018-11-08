@@ -1,14 +1,12 @@
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import PostItem from "./PostItem.jsx"
-/*
-Keyword [keyword list component]
-  posts
-*/
 
 class Keyword extends Component {
   render() {
     const postData = this.props.data.postData
 
+    // todo: sent number of posts found via aws lambda function
     const numberOfPostsFound = postData.ids.length
     const indexValueToMap = Array.from(Array(numberOfPostsFound).keys())
 
@@ -41,4 +39,8 @@ class Keyword extends Component {
   }
 }
 
- export default Keyword
+Keyword.propTypes = {
+  data: PropTypes.object.isRequired
+}
+
+export default Keyword

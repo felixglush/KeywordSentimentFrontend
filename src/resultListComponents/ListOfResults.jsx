@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { ListGroup, ListGroupItem } from 'react-bootstrap'
 import Source from "./Source.jsx"
@@ -30,6 +31,10 @@ class ListOfResults extends Component {
       <ListGroup>{sourceList}</ListGroup>
     )
   }
+}
+
+ListOfResults.propTypes = {
+  result: PropTypes.object.isRequired
 }
 
 export default ListOfResults

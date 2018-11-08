@@ -1,5 +1,7 @@
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import Keyword from './Keyword.jsx'
+
 class Reddit extends Component {
   render() {
     const data = this.props.data
@@ -33,6 +35,10 @@ class Reddit extends Component {
       </div>
     )
   }
+}
+
+Reddit.propTypes = {
+  data: PropTypes.object.isRequired
 }
 
 export default Reddit

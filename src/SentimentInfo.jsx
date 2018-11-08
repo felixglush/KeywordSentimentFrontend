@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import ListOfResults from './resultListComponents/ListOfResults.jsx'
 import './App.css'
@@ -11,6 +12,10 @@ class SentimentInfo extends Component {
       </div>
     )
   }
+}
+
+SentimentInfo.propTypes = {
+  result: PropTypes.object
 }
 
 export default SentimentInfo
