@@ -21,15 +21,19 @@ class SearchForm extends Component {
   }
 
   search() {
-    const resultJSON = { "sources": [ "reddit" ], "keywords": [ "keyword1", "keyword2" ], "reddit": { "subreddits": ["subreddit1"], "subreddit1": { "hot": { "keyword1": { "urls": ["wwww.reddit.com", "www.reddit.com"], "ids": [1, 2], "upvotes": [1, 2], "creation_dates": [123, 312], "title": { "text": [ "title1, key1", "title1, key1" ], "Sentiment": [ "NEUTRAL", "POSITIVE" ], "SentimentScore": [ { "Mixed": 0.0145, "Positive": 0.315, "Neutral": 0.598, "Negative": 0.070 }, { "Mixed": 0.0145, "Positive": 0.315, "Neutral": 0.598, "Negative": 0.070 } ] }, "body": { "text": ["body1", "body2"], "Sentiment": ["NEUTRAL", "POSITIVE"], "SentimentScore": [ { "Mixed": 0.0145, "Positive": 0.315, "Neutral": 0.598, "Negative": 0.070 }, { "Mixed": 0.0145, "Positive": 0.315, "Neutral": 0.598, "Negative": 0.070 }] } }, "keyword2": { "urls": ["wwww.reddit.com", "www.reddit.com"], "ids": [3, 4], "upvotes": [6, 2], "creation_dates": [123, 312], "title": { "text": [ "title1, key2", "title2, key2" ], "Sentiment": [ "NEUTRAL", "POSITIVE" ], "SentimentScore": [ { "Mixed": 0.0145, "Positive": 0.315, "Neutral": 0.598, "Negative": 0.070 }, { "Mixed": 0.0145, "Positive": 0.315, "Neutral": 0.598, "Negative": 0.070 }] }, "body": { "text": ["body1", "body2"], "Sentiment": ["NEUTRAL", "POSITIVE"], "SentimentScore": [ { "Mixed": 0.0145, "Positive": 0.315, "Neutral": 0.598, "Negative": 0.070 }, { "Mixed": 0.0145, "Positive": 0.315, "Neutral": 0.598, "Negative": 0.070 }] } } }, "new": {} } } }
-
-    const payLoadObject = {
+    const payload = {
       "keywords_list": this.state.keywords,
       "subreddits_list": this.state.subredditsToSearch,
       "sources": ["reddit"]
     }
 
-    callLambda(JSON.stringify(payLoadObject), (result) => {
+    const mockPayload = {
+      "keywords_list": ["the"],
+      "subreddits_list": ["uwaterloo"],
+      "sources": ["reddit"]
+    }
+
+    callLambda(JSON.stringify(mockPayload), (result) => {
       const resultObj = JSON.parse(JSON.parse(result.body).result)
       this.props.onSearch(resultObj)
     })

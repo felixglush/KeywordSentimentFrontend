@@ -1,29 +1,50 @@
 import React, { Component } from 'react'
 import { ListGroupItem } from 'react-bootstrap'
-
+import PostItemModal from './PostItemModal.jsx'
 class PostItem extends Component {
-  render() {
-    const filterKey = this.props.filterKey
-    const id = this.props.key
-    const url = this.props.url
-    const upvotes = this.props.upvotes
-    const creation_date = this.props.creation_date
-    const title = this.props.title
-    const titleSentiment = this.props.titleSentiment
-    const titleSentimentScore = this.props.titleSentimentScore
-    const body = this.props.body
-    const bodySentiment = this.props.bodySentiment
-    const bodySentimentScore = this.props.bodySentimentScore
+  constructor(props) {
+    super(props)
+    this.state = {
+      showItemModal: false
+    }
+    this.handleShow = this.handleShow.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+  }
 
+  handleClose() {
+    this.setState({ showItemModal: false });
+  }
+
+  handleShow() {
+    this.setState({ showItemModal: true });
+  }
+
+  render() {
+    const date = new Date(this.props.creation_date)
+    const postItemModal = this.state.showItemModal
+          ? <PostItemModal
+              close={this.handleClose}
+              showItemModal={this.state.showItemModal}
+              filterKey={this.props.filterKey}
+              id={this.props.key}
+              url={this.props.url}
+              upvotes={this.props.upvotes}
+              creation_date={date}
+              title={this.props.title}
+              titleSentiment={this.props.titleSentiment}
+              titleSentimentScore={this.props.titleSentimentScore}
+              body={this.props.body}
+              bodySentiment={this.props.bodySentiment}
+              bodySentimentScore={this.props.bodySentimentScore}
+            />
+          : <span/>
     return (
-      <ListGroupItem>
-        <div>
-          {title}
-        </div>
-        <div>
-          {body}
-        </div>
-      </ListGroupItem>
+      <div>
+        <ListGroupItem onClick={this.handleShow}>
+          {this.props.title}
+        </ListGroupItem>
+        {postItemModal}
+      </div>
     )
 
   }
