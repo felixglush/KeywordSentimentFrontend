@@ -3,12 +3,24 @@ import { Button } from 'react-bootstrap'
 import SearchInput from './SearchInput.jsx'
 import Controls from './Controls.jsx'
 import EditableListOfT from './EditableListOfT.jsx'
-import { callLambda } from '../aws.js'
+
+const NameInput = (props) => (
+    <FormGroup>
+      <InputGroup>
+        <FormControl
+          type="text"
+          placeholder="Campaign Name..."
+          onChange={event => {props.onChange(event.target.value)}}
+        ></FormControl>
+      </InputGroup>
+    </FormGroup>
+)
 
 class SearchForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      name: '',
       keywords: [],
       subredditsToSearch: [],
       searchReddit: false,
@@ -17,26 +29,27 @@ class SearchForm extends Component {
 
     this.handleAddStringToSearch = this.handleAddStringToSearch.bind(this)
     this.handleChangedControls = this.handleChangedControls.bind(this)
-    this.search = this.search.bind(this)
+    this.create = this.create.bind(this)
   }
 
-  search() {
-    const payload = {
-      "keywords_list": this.state.keywords,
-      "subreddits_list": this.state.subredditsToSearch,
-      "sources": ["reddit"]
+  create() {
+    const campaign = {
+      name: this.state.name,
+      keywords: this.state.keywords
     }
 
-    const mockPayload = {
-      "keywords_list": ["the"],
-      "subreddits_list": ["uwaterloo"],
-      "sources": ["reddit"]
+    let sources = []
+    let subreddits = []
+    if (this.state.searchTwitter) sources.push("twitter")
+    if (this.state.searchReddit) {
+      sources.push("reddit")
+      subreddits = this.state.subredditsToSearch
+      campaign["subreddits"] = this.state.subredditsToSearch
     }
 
-    callLambda(JSON.stringify(mockPayload), (result) => {
-      const resultObj = JSON.parse(JSON.parse(result.body).result)
-      this.props.onSearch(resultObj)
-    })
+    campaign["sources"] = sources
+
+    this.onCreate(campaign)
   }
 
   isEmpty(string) {
@@ -81,38 +94,48 @@ class SearchForm extends Component {
     })
   }
 
+  campaignNameChange(name) {
+    // make sure it is unique
+    let unique = true
+    for (var takenName in this.props.names) {
+      if (takenName === name) {
+        console.log("Name is taken.")
+        unique = false
+      }
+    }
+
+    if (unique) this.setState({ name })
+  }
+
   render() {
     const subredditList = this.state.searchReddit
                         ? <EditableListOfT items={this.state.subredditsToSearch}/>
                         : null;
-                        console.log("subredditList", subredditList)
 
     return (
       <div>
+        <NameInput onChange={this.campaignNameChange}/>
         <div className="row">
-          <div className="col-md-5">
+          <div className="col-md-6">
             <SearchInput handleAddKeywordToSearch={this.handleAddStringToSearch}/>
             <EditableListOfT items={this.state.keywords}/>
           </div>
 
 
-          <div className="col-md-5">
+          <div className="col-md-6">
             <Controls
               handleAddSubredditToSearch={this.handleAddStringToSearch}
               onControlChange={this.handleChangedControls}
               searchSettings={this.state.searchSettings}/>
             {subredditList}
           </div>
-
-          <div className="col-md-2">
-            <Button
-              bsStyle="primary" bsSize="large"
-              onClick={this.search}
-            >
-              Search
-            </Button>
-          </div>
         </div>
+
+        <Button
+          bsStyle="primary" bsSize="large"
+          onClick={this.create}>
+          Create
+        </Button>
       </div>
     )
   }

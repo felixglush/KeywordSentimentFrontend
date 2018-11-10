@@ -1,6 +1,7 @@
 import AWS from 'aws-sdk'
 
 let lambda
+// let ddb
 let pullParams
 let pullResults // create variable to hold data returned by the Lambda function
 const region = 'us-east-1'
@@ -14,9 +15,12 @@ export const initAWS = () => {
   })
 
   lambda = new AWS.Lambda({region: region, apiVersion: '2015-03-31'})
+//  ddb = new AWS.DynamoDB({apiVersion: '2012-10-08'})
 }
 
-// Async call to AWS Lambda function
+// ******************** AWS Lambda ********************
+
+// Async lambda call
 export const callLambda = (payload, callback) => {
   console.log('callLambda payload', payload)
   initLambdaRequest(payload)
@@ -44,4 +48,26 @@ const invokeLambda = (callback) => {
       return pullResults
     }
   })
+}
+
+// ******************** DynamoDB functions ********************
+
+export const addCampaign = (campaign, callback) => {
+  console.log('aws::addCampaign', campaign)
+}
+
+export const fetchCampaigns = (callback) => {
+  const mockCampaigns = [{
+    name: 'Mock campaign #1',
+    sources: ['reddit'],
+    keywords: ['the', 'awesome'],
+    subreddits: ['uwaterloo']
+  }, {
+    name: 'Mock campaign #2',
+    sources: ['reddit'],
+    keywords: ['the', 'six', '6'],
+    subreddits: ['toronto']
+  }]
+
+  callback(mockCampaigns)
 }
