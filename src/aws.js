@@ -58,7 +58,9 @@ export const addCampaign = (campaign, callback) => {
     TableName: 'Campaigns',
     Item: {
       'CampaignName': {S: campaign.name},
-      'sources': {SS: campaign.sources}
+      'sources': {SS: campaign.sources},
+      'keywords': {SS: campaign.keywords},
+      'subreddits': {SS: campaign.subreddits}
     }
   }
 
@@ -68,25 +70,25 @@ export const addCampaign = (campaign, callback) => {
     if (error) {
       console.log('Error! addCampaign', error)
     } else {
-      console.log('aws::addCampaign data', data)
-      // callback(putResults)
+      console.log('Success! aws::addCampaign data', data)
       return data
     }
   })
 }
 
 export const fetchCampaigns = (callback) => {
-  const mockCampaigns = [{
-    name: 'Mock campaign #1',
-    sources: ['reddit'],
-    keywords: ['the', 'awesome'],
-    subreddits: ['uwaterloo']
-  }, {
-    name: 'Mock campaign #2',
-    sources: ['reddit'],
-    keywords: ['the', 'six', '6'],
-    subreddits: ['toronto']
-  }]
+  console.log('aws::fetchCampaigns')
+  const params = {
+    TableName: 'Campaigns'
+  }
 
-  callback(mockCampaigns)
+  ddb.scan(params, function (error, data) {
+    if (error) {
+      console.log('Error! aws::fetchCampaigns', error)
+    } else {
+      console.log('Success! aws::fetchCampaigns data', data)
+      callback(data)
+      return data
+    }
+  })
 }

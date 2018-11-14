@@ -18,8 +18,30 @@ class CampaignsOverview extends Component {
     // fetch campaigns
     console.log("CampaignsOverview::componentDidMount, fetching campaigns")
     fetchCampaigns((resultDynamoDB) => {
-      console.log('fetched campaigns', resultDynamoDB)
-      this.setState({ campaigns:resultDynamoDB })
+      const items = resultDynamoDB.Items
+      console.log('fetched campaign items', items)
+
+      // parse the returned result
+      let campaigns = []
+      for (var i in items) {
+        const ddbCampaign = items[i]
+        const campaign = {
+          'name': ddbCampaign.CampaignName.S
+        }
+        if (ddbCampaign.sources) {
+          campaign.sources = ddbCampaign.sources.SS
+        }
+
+        if (ddbCampaign.keywords) {
+          campaign.keywords = ddbCampaign.keywords.SS
+        }
+        if (ddbCampaign.subreddits) {
+          campaign.subreddits = ddbCampaign.subreddits.SS
+        }
+        campaigns.push(campaign)
+      }
+
+      this.setState({ campaigns }, () => console.log("CampaignsOverview::fetchCampaigns, state", this.state.campaigns))
     })
   }
 
