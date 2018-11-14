@@ -14,11 +14,15 @@ class Campaign extends Component {
 
   componentDidMount() {
     // callLambda with the campaign's parameters
+    const passedState = this.props.location.state
+    console.log("Campaign::passedState", passedState)
     const payload = {
-      "keywords_list": this.props.campaign.keywords,
-      "subreddits_list": this.props.campaign.subreddits,
-      "sources": this.props.campaign.sources
+      "keywords_list": passedState.keywords,
+      "subreddits_list": passedState.subreddits,
+      "sources": passedState.sources
     }
+
+    console.log("Campaign::payload", payload)
 
     const mockPayload = {
       "keywords_list": ["the"],
@@ -39,8 +43,6 @@ class Campaign extends Component {
   }
 
   render() {
-    console.log('Campaign::match', this.props.match)
-    console.log('Campaign::campaign', this.props.campaign)
     let sentimentInfo
     if (this.state.result !== null)
       sentimentInfo = <SentimentInfo result={this.state.result}/>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button } from 'react-bootstrap'
+import { Button, FormGroup, InputGroup, FormControl } from 'react-bootstrap'
 import SearchInput from './SearchInput.jsx'
 import Controls from './Controls.jsx'
 import EditableListOfT from './EditableListOfT.jsx'
