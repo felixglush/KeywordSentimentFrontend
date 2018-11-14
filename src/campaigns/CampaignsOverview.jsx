@@ -28,15 +28,15 @@ class CampaignsOverview extends Component {
     this.state.campaigns.map((campaign) => {
        listOfCampaignNames.push(campaign.name)
     })
+    console.log("CampaignsOverview::listOfCampaignNames", listOfCampaignNames)
 
     const campaignsList = this.state.campaigns.map((campaign) =>
       <Link to={{pathname: `/campaign/` + campaign.name, state: campaign}}>
-        <ListGroupItem key={campaign.name}>
-            <CampaignListItem
-              campaign={campaign}
-              overallSentiment={"placeholder sentiment"}
-            />
-        </ListGroupItem>
+          <CampaignListItem
+            key={campaign.name}
+            campaign={campaign}
+            overallSentiment={"placeholder sentiment"}
+          />
       </Link>
     )
 
@@ -44,8 +44,7 @@ class CampaignsOverview extends Component {
       <div>
         <ListGroup>{campaignsList}</ListGroup>
         <Link to={{pathname: '/createCampaign/', state: listOfCampaignNames}}>
-          <Button
-            onClick={this.createNewCampaign}>
+          <Button>
             Create campaign
           </Button>
         </Link>

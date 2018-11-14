@@ -27,6 +27,7 @@ class SearchForm extends Component {
       searchTwitter: false
     }
 
+    this.campaignNameChange = this.campaignNameChange.bind(this)
     this.handleAddStringToSearch = this.handleAddStringToSearch.bind(this)
     this.handleChangedControls = this.handleChangedControls.bind(this)
     this.create = this.create.bind(this)
@@ -49,7 +50,7 @@ class SearchForm extends Component {
 
     campaign["sources"] = sources
 
-    this.onCreate(campaign)
+    this.props.onCreate(campaign)
   }
 
   isEmpty(string) {
@@ -95,16 +96,18 @@ class SearchForm extends Component {
   }
 
   campaignNameChange(name) {
+    const list = this.props.listOfCampaignNames
     // make sure it is unique
     let unique = true
-    for (var takenName in this.props.names) {
-      if (takenName === name) {
+    for (var takenNameIndex in list) {
+      if (list[takenNameIndex] === name) {
         console.log("Name is taken.")
         unique = false
       }
     }
 
     if (unique) this.setState({ name })
+    else console.log("Campaign name not unique.")
   }
 
   render() {

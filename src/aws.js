@@ -1,7 +1,7 @@
 import AWS from 'aws-sdk'
 
 let lambda
-// let ddb
+let ddb
 let pullParams
 let pullResults // create variable to hold data returned by the Lambda function
 const region = 'us-east-1'
@@ -15,7 +15,7 @@ export const initAWS = () => {
   })
 
   lambda = new AWS.Lambda({region: region, apiVersion: '2015-03-31'})
-//  ddb = new AWS.DynamoDB({apiVersion: '2012-10-08'})
+  ddb = new AWS.DynamoDB({apiVersion: '2012-10-08'})
 }
 
 // ******************** AWS Lambda ********************
@@ -54,6 +54,25 @@ const invokeLambda = (callback) => {
 
 export const addCampaign = (campaign, callback) => {
   console.log('aws::addCampaign', campaign)
+  const params = {
+    TableName: 'Campaigns',
+    Item: {
+      'CampaignName': {S: campaign.name},
+      'sources': {SS: campaign.sources}
+    }
+  }
+
+  console.log('aws::addCampaign params', params)
+
+  ddb.putItem(params, function (error, data) {
+    if (error) {
+      console.log('Error! addCampaign', error)
+    } else {
+      console.log('aws::addCampaign data', data)
+      // callback(putResults)
+      return data
+    }
+  })
 }
 
 export const fetchCampaigns = (callback) => {

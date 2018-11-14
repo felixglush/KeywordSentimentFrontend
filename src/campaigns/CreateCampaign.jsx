@@ -11,14 +11,16 @@ class CreateCampaign extends Component {
     addCampaign(campaign, (resultDynamoDB) => {
       console.log("Created campaign. result: ", resultDynamoDB)
       // then open view of the Campaign with results (i.e. Campaign component)
-
+      
     })
   }
 
   render () {
     return (
       // render of the Campaign parameters to search for
-      <SearchForm onCreate={this.handleReturnedResult}/>
+      <SearchForm
+        listOfCampaignNames={this.props.location.state}
+        onCreate={this.handleReturnedResult}/>
     )
   }
 }
