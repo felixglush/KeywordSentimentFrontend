@@ -2,9 +2,8 @@ import AWS from 'aws-sdk'
 
 let lambda
 let ddb
-let pullParams
-let pullResults // create variable to hold data returned by the Lambda function
 const region = 'us-east-1'
+
 export const initAWS = () => {
   console.log('Init AWS')
 
@@ -23,27 +22,20 @@ export const initAWS = () => {
 // Async lambda call
 export const callLambda = (payload, callback) => {
   console.log('callLambda payload', payload)
-  initLambdaRequest(payload)
-  invokeLambda(callback)
-}
-
-const initLambdaRequest = (payload) => {
-  // create JSON object for parameters for invoking Lambda function
-  pullParams = {
+  const pullParams = {
     FunctionName: 'serverless-keywordtracker-dev-hello',
     InvocationType: 'RequestResponse',
     LogType: 'None',
     Payload: payload
   }
-}
 
-const invokeLambda = (callback) => {
   lambda.invoke(pullParams, function (error, data) {
     if (error) {
       console.log('Error!', error)
     } else {
-      pullResults = JSON.parse(data.Payload)
-      console.log('Pull results', pullResults)
+      console.log('AWS Lambda raw data', data)
+      const pullResults = JSON.parse(data.Payload)
+      console.log('AWS Lambda Pull results', pullResults)
       callback(pullResults)
       return pullResults
     }
@@ -52,6 +44,9 @@ const invokeLambda = (callback) => {
 
 // ******************** DynamoDB functions ********************
 
+// A DynamoDB trigger is enabled on the Campaigns table so when the
+// campaign is put into the table, an AWS Lambda function is called
+// that creates a table for this campaign
 export const addCampaign = (campaign, callback) => {
   console.log('aws::addCampaign', campaign)
   const params = {
@@ -71,6 +66,7 @@ export const addCampaign = (campaign, callback) => {
       console.log('Error! addCampaign', error)
     } else {
       console.log('Success! aws::addCampaign data', data)
+      callback(campaign)
       return data
     }
   })
@@ -91,4 +87,29 @@ export const fetchCampaigns = (callback) => {
       return data
     }
   })
+}
+
+export const deleteCampaign = (campaignName, callback) => {
+  console.log('aws:: deleting campaign', campaignName)
+  const params = {
+    TableName: 'Campaigns',
+    Key: {
+      'CampaignName': {S: campaignName}
+    }
+  }
+
+  ddb.deleteItem(params, function (error, data) {
+    if (error) {
+      console.log('Error! aws::deleteCampaign', error)
+    } else {
+      console.log('Success! aws::deleteCampaign data', data)
+      callback()
+      return data
+    }
+  })
+}
+
+export const getCampaignData = (campaignName, callback) => {
+  console.log('aws::getCampaignData', campaignName)
+  // campaignName.replace(/\s/g, '')
 }

@@ -25,7 +25,7 @@ class Reddit extends Component {
     })
 
     const postListComponent = listOfKeywords.map((keywordData) =>
-      <Keyword key={keywordData.keyword} data={keywordData}/>
+      <Keyword data={keywordData}/>
     )
 
     return (
