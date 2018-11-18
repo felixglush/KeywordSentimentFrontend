@@ -29,7 +29,7 @@ class Keyword extends Component {
     return (
       <div>
         <div>
-          {this.props.data.keyword}
+          {this.props.data.keyword}, {this.props.data.filterKey}
         </div>
         <div>
           {posts}

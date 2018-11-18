@@ -27,7 +27,8 @@ class CreateCampaign extends Component {
   render () {
     if (this.state.redirect) {
       const campaign = this.state.result
-      return <Redirect to={{pathname: `/campaign/` + campaign.name, state: campaign}} />
+      return <Redirect to={{pathname: `/campaign/` + campaign.name,
+        state: {campaign: campaign, justCreated: true}}} />
     }
 
     return (

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { callLambda } from '../aws.js'
+import { callLambda, getCampaignDataUponTableCreation, getCampaignData } from '../aws.js'
 import SentimentInfo from '../SentimentInfo.jsx'
 import { Button } from 'react-bootstrap'
 import { deleteCampaign } from '../aws.js'
@@ -20,26 +20,38 @@ class Campaign extends Component {
     // callLambda with the campaign's parameters
     const passedState = this.props.location.state
     console.log("Campaign::passedState", passedState)
-    const payload = {
-      "keywords_list": passedState.keywords,
-      "subreddits_list": passedState.subreddits,
-      "sources": passedState.sources
+    // const payload = {
+    //   "keywords_list": passedState.keywords,
+    //   "subreddits_list": passedState.subreddits,
+    //   "sources": passedState.sources
+    // }
+    //
+    // console.log("Campaign::payload", payload)
+    //
+    // const mockPayload = {
+    //   "keywords_list": ["the"],
+    //   "subreddits_list": ["uwaterloo"],
+    //   "sources": ["reddit"]
+    // }
+    //
+    // console.log("Campaign::mock payload", mockPayload)
+    // callLambda(JSON.stringify(payload), (resultLambda) => {
+    //   const result = JSON.parse(JSON.parse(resultLambda.body).result)
+    //   console.log("Campaign::Search lambda, ", result)
+    //   this.setState({ result })
+    // })
+    if (passedState.justCreated) {
+      console.log("campaign recently created, redirecting from CreateCampaign")
+      getCampaignDataUponTableCreation(passedState.campaign.name, (result) => {
+        console.log("Campaign::Search::getCampaignDataUponTableCreation, ddb ", result)
+      })
+    } else if (!passedState.justCreated) {
+      console.log("campaign not recently created")
+      getCampaignData(passedState.campaign.name, (result) => {
+        console.log("Campaign::Search::getCampaignData, ddb ", result)
+      })
     }
 
-    console.log("Campaign::payload", payload)
-
-    const mockPayload = {
-      "keywords_list": ["the"],
-      "subreddits_list": ["uwaterloo"],
-      "sources": ["reddit"]
-    }
-
-    console.log("Campaign::mock payload", mockPayload)
-    callLambda(JSON.stringify(payload), (resultLambda) => {
-      const result = JSON.parse(JSON.parse(resultLambda.body).result)
-      console.log("Campaign::Search", result)
-      this.setState({ result })
-    })
   }
 
   handleEditCampaignClick() {
@@ -48,7 +60,7 @@ class Campaign extends Component {
 
   handleDeleteCampaignClick() {
     console.log('Campaign::handleDeleteCampaignClick')
-    const passedState = this.props.location.state
+    const passedState = this.props.location.state.camapign
     const name = passedState.name
     deleteCampaign(name, () => this.setState({redirectToOverview: true}))
   }

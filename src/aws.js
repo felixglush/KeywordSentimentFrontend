@@ -109,7 +109,40 @@ export const deleteCampaign = (campaignName, callback) => {
   })
 }
 
+export const getCampaignDataUponTableCreation = (campaignName, callback) => {
+  var params = {
+    TableName: campaignName.replace(/\s/g, '')
+  }
+
+  ddb.waitFor('tableExists', params, function (err, data) {
+    if (err) console.log(err, err.stack) // an error occurred
+    else {
+      console.log('table exists success', data)
+      setTimeout(function () {
+        getCampaignData(campaignName, callback)
+      }, 2000)
+    }
+  })
+}
+
 export const getCampaignData = (campaignName, callback) => {
   console.log('aws::getCampaignData', campaignName)
-  // campaignName.replace(/\s/g, '')
+  const params = {
+    TableName: campaignName.replace(/\s/g, ''),
+    Key: {
+      'id': {
+        'N': '1'
+      }
+    }
+  }
+
+  ddb.getItem(params, function (error, data) {
+    if (error) {
+      console.log('Error! aws::getCampaignData', error)
+    } else {
+      console.log('Success! aws::getCampaignData data', data)
+      callback(data)
+      return data
+    }
+  })
 }

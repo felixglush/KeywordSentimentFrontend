@@ -53,7 +53,7 @@ class CampaignsOverview extends Component {
     console.log("CampaignsOverview::listOfCampaignNames", listOfCampaignNames)
 
     const campaignsList = this.state.campaigns.map((campaign) =>
-      <Link to={{pathname: `/campaign/` + campaign.name, state: campaign}}>
+      <Link to={{pathname: `/campaign/` + campaign.name, state: {campaign: campaign, justCreated: false}}}>
           <CampaignListItem
             key={campaign.name}
             campaign={campaign}
